@@ -19,21 +19,25 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:20px 10px;
+  justify-content:center;
   color:white;
   overflow:hidden;
 }
 
-/* MUSIC BAR */
-audio{
-  width:260px;
-  margin-bottom:20px;
-  opacity:0.9;
+/* COVER */
+#cover{
+  text-align:center;
+  cursor:pointer;
+}
+
+#cover p{
+  opacity:0.8;
+  margin-top:12px;
 }
 
 /* ALBUM */
 .album{
-  display:flex;
+  display:none;
   gap:26px;
   flex-wrap:wrap;
   justify-content:center;
@@ -42,35 +46,44 @@ audio{
 /* POLAROID */
 .polaroid{
   background:white;
-  padding:14px 14px 40px;
+  padding:14px 14px 44px;
   width:280px;
   box-shadow:0 18px 40px rgba(0,0,0,0.6);
   animation:fadeIn 1s ease forwards;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
+/* IMAGE FIX */
 .polaroid img{
-  width:100%;
+  max-width:100%;
+  max-height:360px;
+  object-fit:contain;
   display:block;
+  margin:0 auto;
 }
 
+/* CAPTION FIX */
 .polaroid p{
   margin-top:14px;
   font-size:14px;
   color:#444;
   text-align:center;
   line-height:1.5;
+  padding:0 6px;
 }
 
 /* POPUPS */
 .popup{
   position:absolute;
   font-size:22px;
-  animation:pop 2s ease forwards;
+  animation:float 2s ease forwards;
 }
 
-@keyframes pop{
+@keyframes float{
   0%{opacity:0; transform:scale(0.5);}
-  20%{opacity:1; transform:scale(1);}
+  20%{opacity:1;}
   100%{opacity:0; transform:translateY(-40px);}
 }
 
@@ -78,22 +91,17 @@ audio{
   from{opacity:0; transform:translateY(12px);}
   to{opacity:1; transform:translateY(0);}
 }
-
-.hint{
-  margin-top:16px;
-  font-size:13px;
-  opacity:0.7;
-}
 </style>
 </head>
 
 <body>
 
-<audio id="music" autoplay muted loop>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
+<div id="cover">
+  <div style="font-size:22px;">tap to open 💗</div>
+  <p>music & memories</p>
+</div>
 
-<div class="album">
+<div class="album" id="album">
 
   <div class="polaroid">
     <img src="photo1.jpg">
@@ -113,32 +121,31 @@ audio{
 
 </div>
 
-<p class="hint">tap anywhere once 💗</p>
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
 
 <script>
+const cover = document.getElementById("cover");
+const album = document.getElementById("album");
 const music = document.getElementById("music");
-let unlocked = false;
 
-// unmute + play on first tap
-document.body.addEventListener("click", () => {
-  if(!unlocked){
-    music.muted = false;
-    music.play();
-    unlocked = true;
-  }
+cover.addEventListener("click", () => {
+  cover.style.display = "none";
+  album.style.display = "flex";
+
+  music.play();
+
+  setInterval(() => {
+    const p = document.createElement("div");
+    p.className = "popup";
+    p.innerText = Math.random() > 0.5 ? "💗" : "💋";
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.top = Math.random() * window.innerHeight + "px";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),2000);
+  }, 800);
 });
-
-// 💗 💋 POPUPS
-setInterval(() => {
-  const p = document.createElement("div");
-  p.className = "popup";
-  p.innerText = Math.random() > 0.5 ? "💗" : "💋";
-  p.style.left = Math.random() * window.innerWidth + "px";
-  p.style.top = Math.random() * window.innerHeight + "px";
-  document.body.appendChild(p);
-
-  setTimeout(() => p.remove(), 2000);
-}, 800);
 </script>
 
 </body>
