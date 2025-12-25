@@ -38,7 +38,7 @@ body{
 /* ALBUM */
 .album{
   display:none;
-  gap:26px;
+  gap:30px;
   flex-wrap:wrap;
   justify-content:center;
 }
@@ -46,8 +46,8 @@ body{
 /* POLAROID */
 .polaroid{
   background:white;
-  padding:14px 14px 44px;
-  width:280px;
+  padding:14px 14px 42px;
+  width:260px;              /* smaller */
   box-shadow:0 18px 40px rgba(0,0,0,0.6);
   animation:fadeIn 1s ease forwards;
   display:flex;
@@ -58,13 +58,13 @@ body{
 /* IMAGE FIX */
 .polaroid img{
   max-width:100%;
-  max-height:360px;
+  max-height:320px;         /* smaller */
   object-fit:contain;
   display:block;
   margin:0 auto;
 }
 
-/* CAPTION FIX */
+/* CAPTION */
 .polaroid p{
   margin-top:14px;
   font-size:14px;
@@ -133,7 +133,6 @@ const music = document.getElementById("music");
 cover.addEventListener("click", () => {
   cover.style.display = "none";
   album.style.display = "flex";
-
   music.play();
 
   setInterval(() => {
