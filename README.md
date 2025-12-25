@@ -1,1 +1,0 @@
-# radha-loves-lucky
