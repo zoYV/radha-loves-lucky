@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Album</title>
+<title>Us</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -21,13 +21,14 @@ body{
   align-items:center;
   padding:20px 10px;
   color:white;
+  overflow:hidden;
 }
 
-/* MUSIC */
+/* MUSIC BAR */
 audio{
   width:260px;
-  margin-bottom:18px;
-  opacity:0.85;
+  margin-bottom:20px;
+  opacity:0.9;
 }
 
 /* ALBUM */
@@ -60,38 +61,42 @@ audio{
   line-height:1.5;
 }
 
-/* HINT */
+/* POPUPS */
+.popup{
+  position:absolute;
+  font-size:22px;
+  animation:pop 2s ease forwards;
+}
+
+@keyframes pop{
+  0%{opacity:0; transform:scale(0.5);}
+  20%{opacity:1; transform:scale(1);}
+  100%{opacity:0; transform:translateY(-40px);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(12px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
 .hint{
   margin-top:16px;
   font-size:13px;
   opacity:0.7;
-}
-
-/* ANIMATION */
-@keyframes fadeIn{
-  from{
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- SONG (no JS, user taps play) -->
-<audio controls autoplay muted loop>
+<audio id="music" autoplay muted loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <div class="album">
 
   <div class="polaroid">
-    <img src="photo1.jpg" alt="Memory one">
+    <img src="photo1.jpg">
     <p>
       The kind of picture that doesn’t need a reason —<br>
       just two people standing quietly, already feeling like home.
@@ -99,7 +104,7 @@ audio{
   </div>
 
   <div class="polaroid">
-    <img src="photo2.jpg" alt="Memory two">
+    <img src="photo2.jpg">
     <p>
       Nothing loud, nothing extra —<br>
       just us, exactly where we belong.
@@ -108,7 +113,33 @@ audio{
 
 </div>
 
-<p class="hint">tap ▶️ once to hear the song 🤍</p>
+<p class="hint">tap anywhere once 💗</p>
+
+<script>
+const music = document.getElementById("music");
+let unlocked = false;
+
+// unmute + play on first tap
+document.body.addEventListener("click", () => {
+  if(!unlocked){
+    music.muted = false;
+    music.play();
+    unlocked = true;
+  }
+});
+
+// 💗 💋 POPUPS
+setInterval(() => {
+  const p = document.createElement("div");
+  p.className = "popup";
+  p.innerText = Math.random() > 0.5 ? "💗" : "💋";
+  p.style.left = Math.random() * window.innerWidth + "px";
+  p.style.top = Math.random() * window.innerHeight + "px";
+  document.body.appendChild(p);
+
+  setTimeout(() => p.remove(), 2000);
+}, 800);
+</script>
 
 </body>
 </html>
